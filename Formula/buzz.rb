@@ -1,0 +1,17 @@
+class Buzz < Formula
+  desc "Terminal user interface for Beeminder"
+  homepage "https://github.com/narthur/buzz"
+  url "https://github.com/narthur/buzz/archive/refs/tags/v0.3.0.tar.gz"
+  sha256 "c6e407b9b14a19a2835e380f368d69e51e946cbf77d69783ffc7c86e9f7bae47"
+  license "MIT"
+
+  depends_on "go" => :build
+
+  def install
+    system "go", "build", *std_go_args(ldflags: "-s -w")
+  end
+
+  test do
+    assert_match "buzz", shell_output("#{bin}/buzz --help 2>&1", 1)
+  end
+end

@@ -1,7 +1,7 @@
 class Buzz < Formula
   desc "Terminal user interface for Beeminder"
-  homepage "https://github.com/narthur/buzz"
-  url "https://github.com/narthur/buzz/archive/refs/tags/v0.19.0.tar.gz"
+  homepage "https://github.com/PinePeakDigital/buzz"
+  url "https://github.com/PinePeakDigital/buzz/archive/refs/tags/v0.19.0.tar.gz"
   sha256 "6c70f3606d1cd192ef1c57f412fe1ea4a409428694cc298f574535b5e60e94a2"
   license "MIT"
 

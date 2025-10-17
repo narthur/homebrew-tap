@@ -20,7 +20,7 @@ jobs:
         id: check
         run: |
           # Get latest release from public buzz repo
-          LATEST=$(curl -s https://api.github.com/repos/narthur/buzz/releases/latest | jq -r .tag_name)
+          LATEST=$(curl -s https://api.github.com/repos/PinePeakDigital/buzz/releases/latest | jq -r .tag_name)
           echo "latest=$LATEST" >> $GITHUB_OUTPUT
           
           # Get current version from formula
@@ -37,13 +37,13 @@ jobs:
         if: steps.check.outputs.needs_update == 'true'
         run: |
           VERSION="${{ steps.check.outputs.latest }}"
-          URL="https://github.com/narthur/buzz/archive/refs/tags/${VERSION}.tar.gz"
+          URL="https://github.com/PinePeakDigital/buzz/archive/refs/tags/${VERSION}.tar.gz"
           SHA256=$(curl -sL "$URL" | shasum -a 256 | cut -d ' ' -f 1)
           
           cat > Formula/buzz.rb << EOF
           class Buzz < Formula
             desc "Terminal user interface for Beeminder"
-            homepage "https://github.com/narthur/buzz"
+            homepage "https://github.com/PinePeakDigital/buzz"
             url "${URL}"
             sha256 "${SHA256}"
             license "MIT"

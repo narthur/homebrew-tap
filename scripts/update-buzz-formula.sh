@@ -7,10 +7,23 @@ LATEST=$(curl -s https://api.github.com/repos/PinePeakDigital/buzz/releases/late
 # Get current version from formula
 CURRENT=$(grep -oP 'url.*tags/\K[^/]+(?=\.tar\.gz)' Formula/buzz.rb || echo "none")
 
+# Export values for GitHub Actions (if running in that environment)
+if [ -n "${GITHUB_OUTPUT:-}" ]; then
+  echo "latest=$LATEST" >> "$GITHUB_OUTPUT"
+fi
+
 # Exit early if no update is needed
 if [ "$LATEST" == "$CURRENT" ]; then
   echo "No update needed. Current version: $CURRENT, Latest version: $LATEST"
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    echo "updated=false" >> "$GITHUB_OUTPUT"
+  fi
   exit 0
+fi
+
+# Mark as updated
+if [ -n "${GITHUB_OUTPUT:-}" ]; then
+  echo "updated=true" >> "$GITHUB_OUTPUT"
 fi
 
 echo "Updating from $CURRENT to $LATEST"

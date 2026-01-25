@@ -18,16 +18,7 @@ jobs:
 
       - name: Check and update formula
         id: update
-        run: |
-          scripts/update-buzz-formula.sh
-          # Check if formula was updated
-          if ! git diff --exit-code Formula/buzz.rb > /dev/null; then
-            echo "updated=true" >> $GITHUB_OUTPUT
-            VERSION=$(grep -oP 'url.*tags/\K[^/]+(?=\.tar\.gz)' Formula/buzz.rb)
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-          else
-            echo "updated=false" >> $GITHUB_OUTPUT
-          fi
+        run: scripts/update-buzz-formula.sh
 
       - name: Commit and push
         if: steps.update.outputs.updated == 'true'
@@ -35,5 +26,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Formula/buzz.rb
-          git commit -m "buzz ${{ steps.update.outputs.version }}"
+          git commit -m "buzz ${{ steps.update.outputs.latest }}"
           git push

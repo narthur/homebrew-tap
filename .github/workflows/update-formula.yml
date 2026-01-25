@@ -22,4 +22,7 @@ jobs:
 
       - name: Commit and push
         if: steps.update.outputs.updated == 'true'
+        env:
+          FORMULAS: ${{ steps.update.outputs.formulas }}
+          VERSIONS: ${{ steps.update.outputs.versions }}
         run: .github/scripts/commit-and-push.sh

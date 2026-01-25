@@ -5,9 +5,9 @@ git config user.name "github-actions[bot]"
 git config user.email "github-actions[bot]@users.noreply.github.com"
 git add Formula/*.rb
 
-# Build commit message from updated formulas
-FORMULAS="${{ steps.update.outputs.formulas }}"
-VERSIONS="${{ steps.update.outputs.versions }}"
+# Build commit message from updated formulas (values passed via environment)
+FORMULAS="${FORMULAS:-}"
+VERSIONS="${VERSIONS:-}"
 
 # Parse comma-separated values and build commit message
 if [ -n "$FORMULAS" ] && [ -n "$VERSIONS" ]; then

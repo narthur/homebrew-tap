@@ -24,7 +24,7 @@ update_formula() {
   
   if [ -z "$homepage_url" ]; then
     echo "  Warning: Could not extract homepage URL from $formula_file, skipping..."
-    return 1
+    return 0
   fi
   
   # Extract repo URL (handle both github.com URLs and other formats)
@@ -33,7 +33,7 @@ update_formula() {
     repo_url="$homepage_url"
   else
     echo "  Warning: Homepage URL is not a GitHub URL: $homepage_url, skipping..."
-    return 1
+    return 0
   fi
   
   # Build GitHub API URL for latest release
@@ -44,7 +44,7 @@ update_formula() {
     repo="${BASH_REMATCH[2]}"
   else
     echo "  Warning: Could not parse GitHub owner/repo from URL: $repo_url, skipping..."
-    return 1
+    return 0
   fi
   local api_url="https://api.github.com/repos/${owner}/${repo}/releases/latest"
   
@@ -53,7 +53,7 @@ update_formula() {
   
   if [ -z "$latest" ] || [ "$latest" == "null" ]; then
     echo "  Warning: Could not fetch latest release for $repo_url, skipping..."
-    return 1
+    return 0
   fi
   
   # Get current version from formula

@@ -37,5 +37,5 @@ else
 COMMIT_MSG="Update formulas"
 fi
 
-git commit -m "$COMMIT_MSG"
+git diff --cached --quiet || git commit -m "$COMMIT_MSG"
 git push

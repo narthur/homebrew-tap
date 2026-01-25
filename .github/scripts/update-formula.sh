@@ -71,8 +71,8 @@ update_formula() {
   local archive_url="${repo_url}/archive/refs/tags/${latest}.tar.gz"
   local sha256=$(curl -fsSL "$archive_url" | shasum -a 256 | cut -d ' ' -f 1)
   
-  if [ -z "$sha256" ]; then
-    echo "  Error: Could not calculate SHA256 for $archive_url"
+  if [ -z "$sha256" ] || ! [[ "$sha256" =~ ^[a-f0-9]{64}$ ]]; then
+    echo "  Error: Invalid SHA256 calculated for $archive_url: '$sha256'"
     return 1
   fi
   

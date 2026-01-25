@@ -49,8 +49,20 @@ update_formula() {
     return 1
   fi
   
+  # Build GitHub API URL for latest release
+  local owner=""
+  local repo=""
+  if [[ "$repo_url" =~ ^https://github\.com/([^/]+)/([^/]+) ]]; then
+    owner="${BASH_REMATCH[1]}"
+    repo="${BASH_REMATCH[2]}"
+  else
+    echo "  Warning: Could not parse GitHub owner/repo from URL: $repo_url, skipping..."
+    return 1
+  fi
+  local api_url="https://api.github.com/repos/${owner}/${repo}/releases/latest"
+  
   # Get latest release tag
-  local latest=$(curl -s "${repo_url}/releases/latest" | jq -r .tag_name 2>/dev/null || echo "")
+  local latest=$(curl -s "$api_url" | jq -r .tag_name 2>/dev/null || echo "")
   
   if [ -z "$latest" ] || [ "$latest" == "null" ]; then
     echo "  Warning: Could not fetch latest release for $repo_url, skipping..."

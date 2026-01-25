@@ -12,19 +12,6 @@ extract_github_url() {
   grep -oP 'homepage\s+"\K[^"]+' "$formula_file" | head -1 || echo ""
 }
 
-# Function to get formula class name from file
-get_formula_class() {
-  local formula_file="$1"
-  grep -oP 'class\s+\K\w+' "$formula_file" | head -1 || echo ""
-}
-
-# Function to get formula name (lowercase class name)
-get_formula_name() {
-  local formula_file="$1"
-  local class_name=$(get_formula_class "$formula_file")
-  echo "${class_name,,}"  # Convert to lowercase
-}
-
 # Function to update a single formula
 update_formula() {
   local formula_file="$1"

@@ -39,7 +39,7 @@ update_formula() {
 	# Build GitHub API URL for latest release
 	local owner=""
 	local repo=""
-	if [[ "$repo_url" =~ ^https://github\.com/([^/]+)/([^/]+) ]]; then
+	if [[ "$repo_url" =~ ^https://github\.com/([^/]+)/([^/]+)(/.*)?$ ]]; then
 		owner="${BASH_REMATCH[1]}"
 		repo="${BASH_REMATCH[2]}"
 	else

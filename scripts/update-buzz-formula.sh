@@ -1,10 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Get latest release from public buzz repo
-LATEST=$(curl -s https://api.github.com/repos/PinePeakDigital/buzz/releases/latest | jq -r .tag_name)
-
-# Get current version from formula
+REPO_URL="https://github.com/PinePeakDigital/buzz"
+LATEST=$(curl -s "${REPO_URL}/releases/latest" | jq -r .tag_name)
 CURRENT=$(grep -oP 'url.*tags/\K[^/]+(?=\.tar\.gz)' Formula/buzz.rb || echo "none")
 
 # Export values for GitHub Actions (if running in that environment)
@@ -29,15 +27,15 @@ fi
 echo "Updating from $CURRENT to $LATEST"
 
 # Calculate SHA256 for the new version
-URL="https://github.com/PinePeakDigital/buzz/archive/refs/tags/${LATEST}.tar.gz"
-SHA256=$(curl -sL "$URL" | shasum -a 256 | cut -d ' ' -f 1)
+ARCHIVE_URL="${REPO_URL}/archive/refs/tags/${LATEST}.tar.gz"
+SHA256=$(curl -sL "$ARCHIVE_URL" | shasum -a 256 | cut -d ' ' -f 1)
 
 # Update the formula
 cat > Formula/buzz.rb << EOF
 class Buzz < Formula
   desc "Terminal user interface for Beeminder"
-  homepage "https://github.com/PinePeakDigital/buzz"
-  url "${URL}"
+  homepage "${REPO_URL}"
+  url "${ARCHIVE_URL}"
   sha256 "${SHA256}"
   license "MIT"
 

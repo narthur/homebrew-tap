@@ -8,10 +8,12 @@ class Buzz < Formula
   depends_on "go" => :build
 
   def install
-    system "go", "build", *std_go_args(ldflags: "-s -w")
+    system "go", "build", *std_go_args(ldflags: "-s -w -X main.version=v#{version}")
   end
 
   test do
     assert_match "buzz", shell_output("#{bin}/buzz --help 2>&1", 1)
+    # Regression guard: the build must stamp the version, not leave it "dev".
+    assert_match "v#{version}", shell_output("#{bin}/buzz --version")
   end
 end

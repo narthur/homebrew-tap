@@ -13,5 +13,7 @@ class Buzz < Formula
 
   test do
     assert_match "buzz", shell_output("#{bin}/buzz --help 2>&1", 1)
+    # Regression guard: the build must stamp the version, not leave it "dev".
+    assert_match "v#{version}", shell_output("#{bin}/buzz --version")
   end
 end

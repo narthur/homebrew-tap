@@ -1,8 +1,8 @@
 class Buzz < Formula
   desc "Terminal user interface for Beeminder"
   homepage "https://github.com/PinePeakDigital/buzz"
-  url "https://github.com/PinePeakDigital/buzz/archive/refs/tags/v0.71.3.tar.gz"
-  sha256 "55b1eedc1a1716c6e16667b9cfe7fda7a380cada668ec74f86811596730ddfb9"
+  url "https://github.com/PinePeakDigital/buzz/archive/refs/tags/v0.71.4.tar.gz"
+  sha256 "8d6122c14082d5f86eccb829255c26920063373149f5f10314a3ac6a4693826e"
   license "MIT"
 
   depends_on "go" => :build
